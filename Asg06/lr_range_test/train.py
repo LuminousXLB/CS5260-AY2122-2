@@ -1,46 +1,14 @@
 import math
-from pathlib import Path
 
 import colossalai
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 from colossalai.core import global_context as gpc
 from colossalai.logging import get_dist_logger
 from colossalai.trainer import Trainer, hooks
-from colossalai.utils import MultiTimer, get_dataloader
-from torchvision import transforms
-from torchvision.datasets import MNIST
+from colossalai.utils import MultiTimer
 
-
-class LeNet5(nn.Module):
-    def __init__(self, n_classes):
-        super(LeNet5, self).__init__()
-
-        self.feature_extractor = nn.Sequential(
-            nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5, stride=1),
-            nn.Tanh(),
-            nn.AvgPool2d(kernel_size=2),
-            nn.Conv2d(in_channels=6, out_channels=16, kernel_size=5, stride=1),
-            nn.Tanh(),
-            nn.AvgPool2d(kernel_size=2),
-            nn.Conv2d(in_channels=16, out_channels=120, kernel_size=5, stride=1),
-            nn.Tanh(),
-        )
-
-        self.classifier = nn.Sequential(
-            nn.Linear(in_features=120, out_features=84),
-            nn.Tanh(),
-            nn.Linear(in_features=84, out_features=n_classes),
-        )
-
-    def forward(self, x):
-        x = self.feature_extractor(x)
-        x = torch.flatten(x, 1)
-        logits = self.classifier(x)
-        probs = F.softmax(logits, dim=1)
-        return probs
-
+from model import LeNet5
+from dataloader import get_dataloader
 
 config = {"BATCH_SIZE": 128, "NUM_EPOCHS": 5}
 
@@ -49,37 +17,8 @@ colossalai.launch(config=config, rank=0, world_size=1, host="127.0.0.1", port=12
 logger = get_dist_logger()
 
 # build
-
 model = LeNet5(n_classes=10)
-
-# build dataloaders
-train_dataset = MNIST(
-    root=Path("./tmp/"),
-    download=True,
-    transform=transforms.Compose([transforms.Resize((32, 32)), transforms.ToTensor()]),
-)
-
-test_dataset = MNIST(
-    root=Path("./tmp/"),
-    train=False,
-    transform=transforms.Compose([transforms.Resize((32, 32)), transforms.ToTensor()]),
-)
-
-train_dataloader = get_dataloader(
-    dataset=train_dataset,
-    shuffle=True,
-    batch_size=gpc.config.BATCH_SIZE,
-    num_workers=1,
-    pin_memory=True,
-)
-
-test_dataloader = get_dataloader(
-    dataset=test_dataset,
-    add_sampler=False,
-    batch_size=gpc.config.BATCH_SIZE,
-    num_workers=1,
-    pin_memory=True,
-)
+train_dataloader, test_dataloader = get_dataloader(gpc)
 
 # build criterion
 criterion = torch.nn.CrossEntropyLoss()
