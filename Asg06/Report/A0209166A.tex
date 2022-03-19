@@ -3,8 +3,8 @@
 \input{preamble}
 
 \title{\sffamily\bfseries
-  CS5260 -- Assignment 6 \\
-  Spring 2022
+  CS5260 -- Spring 2022 \\
+  Assignment 6
 }
 
 \author{
@@ -16,7 +16,35 @@
 \date{}
 
 \begin{document}
-    \maketitle
+\maketitle
 
-    hhhhhh
+\begin{abstract}
+
+In this assignment, we will study the use of LR range test, using
+Colossalai framework. The chosen model and dataset are LeNet5 and
+MNIST. You will be asked to:
+\begin{enumerate}
+    \item Choose one optimizer from SGD, ADAM, ADAMW, RADAM,
+          LARS, LAMB or other optimizer you are interested in. (Note: AdaGrad
+          is not supposed to work with this method).
+    \item Choose two learning rate scheduling method from Pytorch library.
+          (Including no scheduling) Some possible choice: Multistep, OneCycle
+    \item Take use of \nolinkurl{Colossalai_lr_range_test.ipynb} to conduct LR range test
+          for optimizer you chose. Propose several learning rates for real training.
+    \item Write your code (either adapt provided code or start form scratch) to
+          train LeNet5 on MNIST with two learning rate scheduling methods you
+          choose and proposed learning rate. A suggested epoch number is 30.
+    \item Observe the result, and write a brief report about what you find
+          (optimizer and scheduling method you choose, corresponding LR region
+          on LR range test plot. docx, pdf, ipynb are all acceptable). Remember to
+          save necessary images or data during experiments for report writing.
+    \item Upload your work including requirement.txt to your github. Add the
+          github link to your report.
+\end{enumerate}
+
+\end{abstract}
+
+
+% 另外一个问题是，这个notebook已经实现了lr range test，我们是改掉这一部分，用其他的scheduler重新实现这个过程吗
+
 \end{document}
