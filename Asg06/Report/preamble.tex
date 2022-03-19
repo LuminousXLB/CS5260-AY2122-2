@@ -1,0 +1,47 @@
+\usepackage[letterpaper, total={7in, 9in}]{geometry}
+\usepackage{multicol}
+
+\usepackage[tt=false, type1=true]{libertine}
+\usepackage[varqu]{zi4}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\Large\bfseries\sffamily}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[colorlinks]{hyperref}
+\usepackage{lipsum}
+
+\usepackage{xcolor}
+
+\usepackage{caption}
+\usepackage{minted}
+\setminted{
+    autogobble=true,
+    breaklines=true,
+    fontsize=\small,
+    xleftmargin=2em
+}
+
+\setminted[C]{
+  frame=lines,
+  framesep=2mm,
+}
+
+\setminted[Cpp]{
+  frame=lines,
+  framesep=2mm,
+}
+
+\setminted[bash]{
+  frame=lines,
+  framesep=2mm,
+}
+
+\renewcommand*{\subsectionautorefname}{Section}
+
+\pagestyle{plain}
