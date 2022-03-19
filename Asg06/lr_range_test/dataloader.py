@@ -5,7 +5,6 @@ from torchvision.datasets import MNIST
 from colossalai.context import ParallelContext
 from colossalai.utils import get_dataloader as _get
 
-# build dataloaders
 train_dataset = MNIST(
     root=Path("./tmp/"),
     download=True,
