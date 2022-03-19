@@ -10,11 +10,13 @@ from train import train
 
 config = {"BATCH_SIZE": 128, "NUM_EPOCHS": 5}
 colossalai.launch(config=config, rank=0, world_size=1, host="127.0.0.1", port=1234)
+train_dataloader, test_dataloader = get_dataloader(gpc)
+
+# MultiStepLR
+# OneCycleLR
 
 
 def train_wrapper(model, optimizer):
-    train_dataloader, test_dataloader = get_dataloader(gpc)
-
     # exponentially increase learning rate from low to high
     def lrs(batch):
         low = math.log2(1e-4)
