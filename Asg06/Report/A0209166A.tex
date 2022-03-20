@@ -55,6 +55,8 @@ RAdam (\autoref{fig:lr_range_radam}) optimizer.
 The LR range I chose is as \autoref{tab:lr_range}.
 That is chosen by approximating the descent rate of loss and filtering the range of learning rates, where the descent of loss is above a quantile.
 
+From the result, we can find that the effective learning rate for the SGD optimizer is much larger than those for Adam-like optimizers, where the difference is several magnitudes.
+
 \begin{table}[ht!]
     \centering
     \caption{Chosen Learning Rate Range}\label{tab:lr_range}
@@ -95,7 +97,19 @@ That is chosen by approximating the descent rate of loss and filtering the range
 \end{figure}
 
 \clearpage
+
 \section{LR Range Evaluation}
+
+The model is trained for five epochs using the LR range found above. The accuracy is plotted as \autoref{fig:lr_range_eval}.
+Generally, a higher starting LR makes the accuracy grows faster in the first epoch.
+While the difference is not significant, OneCycleLR seems more appropriate for Adam-like optimizers than MultiStepLR.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=\linewidth]{images/lr_range_eval.pdf}
+    \caption{Training result with difference combinitions}\label{fig:lr_range_eval}
+\end{figure}
+
 
 
 
