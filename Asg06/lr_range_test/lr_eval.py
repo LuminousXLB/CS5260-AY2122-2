@@ -71,7 +71,10 @@ def test_RAdam_MultiStepLR():
 
 def OneCycleLR_train(model, optimizer, lr_min, lr_max):
     lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(
-        optimizer, max_lr=lr_max, total_steps=STEPS
+        optimizer,
+        max_lr=lr_max,
+        steps_per_epoch=len(train_dataloader),
+        epochs=gpc.config.NUM_EPOCHS,
     )
     train(
         model,
